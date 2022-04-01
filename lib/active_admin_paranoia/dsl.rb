@@ -3,7 +3,9 @@ module ActiveAdminParanoia
     def active_admin_paranoia
       controller do
         def find_resource
-          resource_class.to_s.camelize.constantize.with_deleted.where(id: params[:id]).first!
+          resource_class.to_s.camelize.constantize.with_deleted.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          nil
         end
       end
 
